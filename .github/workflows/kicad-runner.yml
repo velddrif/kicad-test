@@ -23,3 +23,9 @@ jobs:
         with:
           name: Generated Data
           path: Generated
+
+      - name: Image
+        uses: actions/upload-artifact@v3
+        with:
+          name: kicad-test-3D_top30deg.png
+          path: Generated/3D/kicad-test-3D_top30deg.png
