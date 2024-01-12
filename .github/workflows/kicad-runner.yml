@@ -12,14 +12,14 @@ jobs:
     container: ghcr.io/inti-cmnb/kicad7_auto_full:latest
     steps:
 
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name : generate
+      - name : Generate
         run: kibot --quick-start
 
-      - name: upload
+      - name: Upload
         uses: actions/upload-artifact@v3
         with:
-          name: Generated
+          name: Generated Data
           path: Generated
