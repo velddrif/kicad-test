@@ -29,3 +29,7 @@ jobs:
         with:
           name: kicad-test-3D_top30deg.png
           path: Generated/3D/kicad-test-3D_top30deg.png
+
+      - name: Adding markdown
+        run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
+
