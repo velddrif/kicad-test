@@ -30,6 +30,17 @@ jobs:
           name: kicad-test-3D_top30deg.png
           path: Generated/3D/kicad-test-3D_top30deg.png
 
-      - name: Adding markdown
-        run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
+      - name: Image upload
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: "Generated/3D/kicad-test-3D_top30deg.png"
+          target: ~/kicad-test-3D_top30deg.png
 
+      - name: Adding markdown
+        run: |
+          echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "![pcb](Generated/3D/kicad-test-3D_top30deg.png)" >> $GITHUB_STEP_SUMMARY
