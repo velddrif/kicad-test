@@ -2,31 +2,27 @@ name: example
 
 on:
   push:
-    paths:
-    - '**.sch'
-    - '**.kicad_pcb'
+    branches: [ "main" ]
   pull_request:
-    paths:
-      - '**.sch'
-      - '**.kicad_pcb'
+    branches: [ "main" ]
 
 jobs:
   example:
     runs-on: ubuntu-latest
+    container: ghcr.io/inti-cmnb/kicad7_auto_full:latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: INTI-CMNB/KiBot@v2
-      with:
-        # Required - kibot config file
-        config: config.kibot.yaml
-        # optional - prefix to output defined in config
-        dir: output
-        # optional - schematic file
-        schema: 'schematic.sch'
-        # optional - PCB design file
-        board: 'pcb.kicad_pcb'
-    - name: upload results
-      uses: actions/upload-artifact@v2
-      with:
-        name: output
-        path: output
+
+      - name: step1
+        uses: actions/checkout@v3
+
+      - name : step2
+        run: ls
+
+      - name : step3
+        run: kibot --quick-start
+
+      - name: step4
+        uses: actions/upload-artifact@v3
+        with:
+          name: Generated
+          path: Generated
