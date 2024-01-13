@@ -1,46 +1,45 @@
+# name
 name: kicad-runner
 
+# on
 on:
+  # on
   push:
     branches: [ "main" ]
+    paths:
+      - '**.kicad_pro'
+      - '**.kicad_pcb'
+      - '**.kicad_sch'  
+  # on
   pull_request:
     branches: [ "main" ]
-
+    paths:
+      - '**.kicad_pro'
+      - '**.kicad_pcb'
+      - '**.kicad_sch'
+# jobs
 jobs:
   kicad-runner:
     runs-on: ubuntu-latest
     container: ghcr.io/inti-cmnb/kicad7_auto_full:latest
     steps:
-
-      - name: Checkout
+      # step 1
+      - name: Checkout Repo
         uses: actions/checkout@v3
-
-      - name : Generate
+      # step 2
+      - name : Generate Outputs
         run: kibot --quick-start
-
+      # step 3
       - name: Upload
-        uses: actions/upload-artifact@v3
-        with:
-          name: Generated Data
-          path: Generated
-
-      - name: Image
-        uses: actions/upload-artifact@v3
-        with:
-          name: kicad-test-3D_top30deg.png
-          path: Generated/3D/kicad-test-3D_top30deg.png
-
-      - name: Image upload
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "Generated/3D/kicad-test-3D_top30deg.png"
-          target: ~/kicad-test-3D_top30deg.png
-
-      - name: Adding markdown
+          source: "Generated"
+          target: ~/
+      # step 4
+      - name: Adding Markdown
         run: |
-          echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
-          echo "![pcb](Generated/3D/kicad-test-3D_top30deg.png)" >> $GITHUB_STEP_SUMMARY
+          echo "### PCB Release Files Generated! :rocket:" >> $GITHUB_STEP_SUMMARY
