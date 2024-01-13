@@ -1,0 +1,33 @@
+# name
+name: kicad-runner-release
+
+# on
+on:
+  # on
+  push:
+    tags:
+      - 'v*'
+# jobs
+jobs:
+  kicad-runner-release:
+    runs-on: ubuntu-latest
+    steps:
+      # step 1
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      # step 2
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
+    
+
